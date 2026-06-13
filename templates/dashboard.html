@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <h1>Dashboard FoodStock</h1>
+
+    <div>
+        <h2>Produtos Cadastrados</h2>
+        <p>{{ total_produtos }}</p>
+    </div>
+
+    <div>
+        <h2>Estoque Baixo</h2>
+        <p>0</p>
+    </div>
+
+    <div>
+        <h2>Produtos Vencendo</h2>
+        <p>0</p>
+    </div>
+
+    <br>
+
+<a href="/produtos">
+    <button>
+        Gerenciar Produtos
+    </button>
+</a>
+
+</body>
+
+</html>

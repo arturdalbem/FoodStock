@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login - FoodStock</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <h1>FoodStock</h1>
+
+        <form action="/dashboard">
+
+            <label>Email</label>
+            <br>
+            <input type="email" required>
+
+            <br><br>
+
+            <label>Senha</label>
+            <br>
+            <input type="password" required>
+
+            <br><br>
+
+            <button type="submit">
+                Entrar
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

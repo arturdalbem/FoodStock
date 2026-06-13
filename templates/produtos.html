@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Produtos</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <h1>Cadastro de Produtos</h1>
+
+  <form method="POST">
+
+    <label>Nome</label>
+    <br>
+    <input type="text" name="nome" required>
+
+    <br><br>
+
+    <label>Categoria</label>
+    <br>
+    <input type="text" name="categoria" required>
+
+    <br><br>
+
+    <label>Quantidade</label>
+    <br>
+    <input type="number" name="quantidade" required>
+
+    <br><br>
+
+    <label>Quantidade Mínima</label>
+    <br>
+    <input type="number" name="quantidade_minima" required>
+
+    <br><br>
+
+    <label>Unidade</label>
+    <br>
+    <input type="text" name="unidade" required>
+
+    <br><br>
+
+    <label>Validade</label>
+    <br>
+    <input type="date" name="data_validade" required>
+
+    <br><br>
+
+    <button type="submit">
+        Salvar Produto
+    </button>
+
+</form>
+
+    <hr>
+
+    <h2>Produtos Cadastrados</h2>
+
+   <table border="1">
+
+<tr>
+    <th>ID</th>
+    <th>Nome</th>
+    <th>Categoria</th>
+    <th>Quantidade</th>
+    <th>Qtd. Mínima</th>
+    <th>Unidade</th>
+    <th>Validade</th>
+</tr>
+
+{% for produto in produtos %}
+
+<tr>
+    <td>{{ produto[0] }}</td>
+    <td>{{ produto[1] }}</td>
+    <td>{{ produto[2] }}</td>
+    <td>{{ produto[3] }}</td>
+    <td>{{ produto[4] }}</td>
+    <td>{{ produto[5] }}</td>
+    <td>{{ produto[6] }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
