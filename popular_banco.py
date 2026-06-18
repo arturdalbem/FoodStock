@@ -29,6 +29,3 @@ conexao.commit()
 conexao.close()
 
 print("Produtos inseridos com sucesso!")
-
-
-#cometario

@@ -76,3 +76,29 @@ def produtos():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+@app.route("/cadastro", methods=["GET", "POST"])
+def cadastro():
+
+    if request.method == "POST":
+
+        nome = request.form["nome"]
+        email = request.form["email"]
+        senha = request.form["senha"]
+
+        conexao = sqlite3.connect("database/estoque.db")
+
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+        INSERT INTO usuarios
+        (nome, email, senha)
+        VALUES (?, ?, ?)
+        """, (nome, email, senha))
+
+        conexao.commit()
+        conexao.close()
+
+        return redirect("/")
+
+    return render_template("cadastro.html")
