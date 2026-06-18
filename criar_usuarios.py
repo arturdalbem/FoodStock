@@ -16,4 +16,4 @@ CREATE TABLE IF NOT EXISTS usuarios (
 conexao.commit()
 conexao.close()
 
-print("Tabela usuarios criada com sucesso!")
+print("Tabela usuarios criada!")

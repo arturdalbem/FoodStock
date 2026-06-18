@@ -74,9 +74,6 @@ def produtos():
         produtos=produtos
     )
 
-if __name__ == "__main__":
-    app.run(debug=True)
-
 @app.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
 
@@ -85,20 +82,26 @@ def cadastro():
         nome = request.form["nome"]
         email = request.form["email"]
         senha = request.form["senha"]
+        confirmar_senha = request.form["confirmar_senha"]
+
+        if senha != confirmar_senha:
+            return "As senhas não coincidem!"
 
         conexao = sqlite3.connect("database/estoque.db")
 
         cursor = conexao.cursor()
 
-        cursor.execute("""
-        INSERT INTO usuarios
-        (nome, email, senha)
+        cursor.execute("""INSERT INTO usuarios (nome, email, senha)
         VALUES (?, ?, ?)
         """, (nome, email, senha))
 
         conexao.commit()
+
         conexao.close()
 
         return redirect("/")
 
     return render_template("cadastro.html")
+
+if __name__ == "__main__":
+    app.run(debug=True)
