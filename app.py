@@ -1,5 +1,11 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3
+import os
+
+# Cria um caminho absoluto dinâmico para a pasta database
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "database", "estoque.db")
+
 
 app = Flask(__name__)
 
@@ -11,7 +17,7 @@ def login():
 @app.route("/dashboard")
 def dashboard():
 
-    conexao = sqlite3.connect("database/estoque.db")
+    conexao = sqlite3.connect(DB_PATH)
 
     cursor = conexao.cursor()
 
@@ -31,7 +37,7 @@ def dashboard():
 @app.route("/produtos", methods=["GET", "POST"])
 def produtos():
 
-    conexao = sqlite3.connect("database/estoque.db")
+    conexao = sqlite3.connect(DB_PATH)
     cursor = conexao.cursor()
 
     if request.method == "POST":
@@ -103,5 +109,7 @@ def cadastro():
 
     return render_template("cadastro.html")
 
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
