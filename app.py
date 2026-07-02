@@ -236,20 +236,20 @@ def cadastro():
     (email,)
 )
 
-usuario = cursor.fetchone()
+        usuario = cursor.fetchone()
 
-if usuario:
-    conexao.close()
-    return "Este e-mail já está cadastrado."
+        if usuario:
+           conexao.close()
+           return "Este e-mail já está cadastrado."
 
-cursor.execute("""
+        cursor.execute("""
     INSERT INTO usuarios
     (nome, email, senha)
     VALUES (?, ?, ?)
-""", (
-    nome,
-    email,
-    senha
+    """, (
+            nome,
+            email,
+            senha
 ))
 
         conexao.commit()
