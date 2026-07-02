@@ -1,4 +1,4 @@
-<{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block titulo %}
 Produtos
@@ -33,6 +33,16 @@ Gerenciamento de Produtos
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Categoria</label>
                     <input type="text" name="categoria" class="form-control" required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Lote</label>
+                    <input
+                        type="text"
+                        name="lote"
+                        class="form-control"
+                        placeholder="Ex.: LT001"
+                        required>
                 </div>
 
                 <div class="col-md-3 mb-3">
@@ -97,11 +107,13 @@ Gerenciamento de Produtos
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Categoria</th>
+                        <th>Lote</th>
                         <th>Quantidade</th>
                         <th>Mínimo</th>
                         <th>Unidade</th>
                         <th>Validade</th>
                         <th>Status</th>
+                        <th>Ações</th>
                     </tr>
 
                 </thead>
@@ -117,11 +129,9 @@ Gerenciamento de Produtos
                         <td>{{ produto[1] }}</td>
 
                         <td>
-
                             <span class="badge bg-primary">
                                 {{ produto[2] }}
                             </span>
-
                         </td>
 
                         <td>{{ produto[3] }}</td>
@@ -132,29 +142,44 @@ Gerenciamento de Produtos
 
                         <td>{{ produto[6] }}</td>
 
+                        <td>{{ produto[7] }}</td>
+
                         <td>
 
-                            {% if produto[3] <= produto[4] %}
+                            {% if produto[4] <= produto[5] %}
 
                             <span class="badge bg-danger">
-
                                 <i class="bi bi-exclamation-circle-fill"></i>
-
                                 Estoque Baixo
-
                             </span>
 
                             {% else %}
 
                             <span class="badge bg-success">
-
                                 <i class="bi bi-check-circle-fill"></i>
-
                                 OK
-
                             </span>
 
                             {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <a href="/editar_produto/{{ produto[0] }}"
+                               class="btn btn-warning btn-sm">
+
+                                <i class="bi bi-pencil-fill"></i>
+
+                            </a>
+
+                            <a href="/excluir_produto/{{ produto[0] }}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Deseja realmente excluir este produto?')">
+
+                                <i class="bi bi-trash-fill"></i>
+
+                            </a>
 
                         </td>
 

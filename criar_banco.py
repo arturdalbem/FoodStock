@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS produtos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
     categoria TEXT NOT NULL,
+    lote TEXT NOT NULL,
     quantidade INTEGER NOT NULL,
     quantidade_minima INTEGER NOT NULL,
     unidade TEXT NOT NULL,

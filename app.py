@@ -44,6 +44,7 @@ def produtos():
 
         nome = request.form["nome"]
         categoria = request.form["categoria"]
+        lote = request.form["lote"]
         quantidade = request.form["quantidade"]
         quantidade_minima = request.form["quantidade_minima"]
         unidade = request.form["unidade"]
@@ -51,17 +52,18 @@ def produtos():
 
         cursor.execute("""
         INSERT INTO produtos
-        (nome, categoria, quantidade, quantidade_minima, unidade, data_validade)
-        VALUES (?, ?, ?, ?, ?, ?)
+        (nome, categoria, lote, quantidade, quantidade_minima, unidade, data_validade)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
         """,
-        (
-            nome,
-            categoria,
-            quantidade,
-            quantidade_minima,
-            unidade,
-            data_validade
-        ))
+       (
+        nome,
+        categoria,
+        lote,
+        quantidade,
+        quantidade_minima,
+        unidade,
+        data_validade
+))
 
         conexao.commit()
 
@@ -79,6 +81,19 @@ def produtos():
         "produtos.html",
         produtos=produtos
     )
+
+@app.route("/excluir_produto/<int:id>")
+def excluir_produto(id):
+
+    conexao = sqlite3.connect(DB_PATH)
+    cursor = conexao.cursor()
+
+    cursor.execute("DELETE FROM produtos WHERE id = ?", (id,))
+
+    conexao.commit()
+    conexao.close()
+
+    return redirect("/produtos")
 
 @app.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
@@ -108,6 +123,59 @@ def cadastro():
         return redirect("/")
 
     return render_template("cadastro.html")
+
+@app.route("/editar_produto/<int:id>", methods=["GET", "POST"])
+def editar_produto(id):
+
+    conexao = sqlite3.connect(DB_PATH)
+    cursor = conexao.cursor()
+
+    if request.method == "POST":
+
+        nome = request.form["nome"]
+        categoria = request.form["categoria"]
+        lote = request.form["lote"]
+        quantidade = request.form["quantidade"]
+        quantidade_minima = request.form["quantidade_minima"]
+        unidade = request.form["unidade"]
+        data_validade = request.form["data_validade"]
+
+        cursor.execute("""
+            UPDATE produtos
+            SET
+                nome = ?,
+                categoria = ?,
+                lote = ?,
+                quantidade = ?,
+                quantidade_minima = ?,
+                unidade = ?,
+                data_validade = ?
+            WHERE id = ?
+        """, (
+            nome,
+            categoria,
+            lote,
+            quantidade,
+            quantidade_minima,
+            unidade,
+            data_validade,
+            id
+        ))
+
+        conexao.commit()
+        conexao.close()
+
+        return redirect("/produtos")
+
+    cursor.execute("SELECT * FROM produtos WHERE id = ?", (id,))
+    produto = cursor.fetchone()
+
+    conexao.close()
+
+    return render_template(
+        "editar_produto.html",
+        produto=produto
+    )
 
 
 if __name__ == "__main__":
