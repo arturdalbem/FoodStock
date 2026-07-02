@@ -2,12 +2,16 @@ from flask import Flask, render_template, request, redirect
 import sqlite3
 import os
 
-# Cria um caminho absoluto dinâmico para a pasta database
+# Caminho do banco de dados
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "database", "estoque.db")
 
-
 app = Flask(__name__)
+
+
+# ============================
+# CRIAR TABELAS AUTOMATICAMENTE
+# ============================
 
 def criar_tabelas():
 
@@ -39,22 +43,31 @@ def criar_tabelas():
     conexao.commit()
     conexao.close()
 
-    criar_tabelas()
+
+# Executa apenas uma vez ao iniciar
+criar_tabelas()
+
+
+# ============================
+# LOGIN
+# ============================
 
 @app.route("/")
 def login():
     return render_template("login.html")
 
 
+# ============================
+# DASHBOARD
+# ============================
+
 @app.route("/dashboard")
 def dashboard():
 
     conexao = sqlite3.connect(DB_PATH)
-
     cursor = conexao.cursor()
 
     cursor.execute("SELECT COUNT(*) FROM produtos")
-
     total_produtos = cursor.fetchone()[0]
 
     conexao.close()
@@ -65,6 +78,9 @@ def dashboard():
     )
 
 
+# ============================
+# CADASTRO DE PRODUTOS
+# ============================
 
 @app.route("/produtos", methods=["GET", "POST"])
 def produtos():
@@ -83,28 +99,25 @@ def produtos():
         data_validade = request.form["data_validade"]
 
         cursor.execute("""
-        INSERT INTO produtos
-        (nome, categoria, lote, quantidade, quantidade_minima, unidade, data_validade)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-        """,
-       (
-        nome,
-        categoria,
-        lote,
-        quantidade,
-        quantidade_minima,
-        unidade,
-        data_validade
-))
+            INSERT INTO produtos
+            (nome, categoria, lote, quantidade, quantidade_minima, unidade, data_validade)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (
+            nome,
+            categoria,
+            lote,
+            quantidade,
+            quantidade_minima,
+            unidade,
+            data_validade
+        ))
 
         conexao.commit()
-
         conexao.close()
 
         return redirect("/produtos")
 
     cursor.execute("SELECT * FROM produtos")
-
     produtos = cursor.fetchall()
 
     conexao.close()
@@ -114,47 +127,31 @@ def produtos():
         produtos=produtos
     )
 
+
+# ============================
+# EXCLUIR PRODUTO
+# ============================
+
 @app.route("/excluir_produto/<int:id>")
 def excluir_produto(id):
 
     conexao = sqlite3.connect(DB_PATH)
     cursor = conexao.cursor()
 
-    cursor.execute("DELETE FROM produtos WHERE id = ?", (id,))
+    cursor.execute(
+        "DELETE FROM produtos WHERE id = ?",
+        (id,)
+    )
 
     conexao.commit()
     conexao.close()
 
     return redirect("/produtos")
 
-@app.route("/cadastro", methods=["GET", "POST"])
-def cadastro():
 
-    if request.method == "POST":
-
-        nome = request.form["nome"]
-        email = request.form["email"]
-        senha = request.form["senha"]
-        confirmar_senha = request.form["confirmar_senha"]
-
-        if senha != confirmar_senha:
-            return "As senhas não coincidem!"
-
-        conexao = sqlite3.connect(DB_PATH)
-
-        cursor = conexao.cursor()
-
-        cursor.execute("""INSERT INTO usuarios (nome, email, senha)
-        VALUES (?, ?, ?)
-        """, (nome, email, senha))
-
-        conexao.commit()
-
-        conexao.close()
-
-        return redirect("/")
-
-    return render_template("cadastro.html")
+# ============================
+# EDITAR PRODUTO
+# ============================
 
 @app.route("/editar_produto/<int:id>", methods=["GET", "POST"])
 def editar_produto(id):
@@ -199,7 +196,11 @@ def editar_produto(id):
 
         return redirect("/produtos")
 
-    cursor.execute("SELECT * FROM produtos WHERE id = ?", (id,))
+    cursor.execute(
+        "SELECT * FROM produtos WHERE id = ?",
+        (id,)
+    )
+
     produto = cursor.fetchone()
 
     conexao.close()
@@ -209,6 +210,48 @@ def editar_produto(id):
         produto=produto
     )
 
+
+# ============================
+# CADASTRO DE USUÁRIOS
+# ============================
+
+@app.route("/cadastro", methods=["GET", "POST"])
+def cadastro():
+
+    if request.method == "POST":
+
+        nome = request.form["nome"]
+        email = request.form["email"]
+        senha = request.form["senha"]
+        confirmar_senha = request.form["confirmar_senha"]
+
+        if senha != confirmar_senha:
+            return "As senhas não coincidem!"
+
+        conexao = sqlite3.connect(DB_PATH)
+        cursor = conexao.cursor()
+
+        cursor.execute("""
+            INSERT INTO usuarios
+            (nome, email, senha)
+            VALUES (?, ?, ?)
+        """, (
+            nome,
+            email,
+            senha
+        ))
+
+        conexao.commit()
+        conexao.close()
+
+        return redirect("/")
+
+    return render_template("cadastro.html")
+
+
+# ============================
+# INICIAR FLASK
+# ============================
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
