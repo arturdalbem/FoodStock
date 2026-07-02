@@ -9,6 +9,38 @@ DB_PATH = os.path.join(BASE_DIR, "database", "estoque.db")
 
 app = Flask(__name__)
 
+def criar_tabelas():
+
+    conexao = sqlite3.connect(DB_PATH)
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS usuarios (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        senha TEXT NOT NULL
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS produtos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL,
+        categoria TEXT NOT NULL,
+        lote TEXT NOT NULL,
+        quantidade INTEGER NOT NULL,
+        quantidade_minima INTEGER NOT NULL,
+        unidade TEXT NOT NULL,
+        data_validade TEXT NOT NULL
+    )
+    """)
+
+    conexao.commit()
+    conexao.close()
+
+    criar_tabelas()
+
 @app.route("/")
 def login():
     return render_template("login.html")
@@ -108,7 +140,7 @@ def cadastro():
         if senha != confirmar_senha:
             return "As senhas não coincidem!"
 
-        conexao = sqlite3.connect("database/estoque.db")
+        conexao = sqlite3.connect(DB_PATH)
 
         cursor = conexao.cursor()
 
