@@ -231,15 +231,26 @@ def cadastro():
         conexao = sqlite3.connect(DB_PATH)
         cursor = conexao.cursor()
 
-        cursor.execute("""
-            INSERT INTO usuarios
-            (nome, email, senha)
-            VALUES (?, ?, ?)
-        """, (
-            nome,
-            email,
-            senha
-        ))
+        cursor.execute(
+    "SELECT id FROM usuarios WHERE email = ?",
+    (email,)
+)
+
+usuario = cursor.fetchone()
+
+if usuario:
+    conexao.close()
+    return "Este e-mail já está cadastrado."
+
+cursor.execute("""
+    INSERT INTO usuarios
+    (nome, email, senha)
+    VALUES (?, ?, ?)
+""", (
+    nome,
+    email,
+    senha
+))
 
         conexao.commit()
         conexao.close()
