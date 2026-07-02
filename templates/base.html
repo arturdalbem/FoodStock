@@ -22,9 +22,9 @@
 <div class="d-flex">
 
     <!-- Menu Lateral -->
-    <nav class="bg-success text-white p-3 vh-100" style="width:250px;">
+    <nav class="bg-success text-white p-3 vh-100 shadow" style="width:220px;">
 
-        <h3 class="text-center mb-4">
+        <h3 class="text-center fw-bold mb-4">
             <i class="bi bi-box-seam-fill"></i>
             FoodStock
         </h3>
@@ -47,57 +47,42 @@
                 </a>
             </li>
 
-            <li class="nav-item mb-2">
-                <a href="#" class="nav-link text-white">
-                    <i class="bi bi-arrow-down-circle-fill"></i>
-                    Entradas
-                </a>
-            </li>
-
-            <li class="nav-item mb-2">
-                <a href="#" class="nav-link text-white">
-                    <i class="bi bi-arrow-up-circle-fill"></i>
-                    Saídas
-                </a>
-            </li>
-
-            <li class="nav-item mb-2">
-                <a href="#" class="nav-link text-white">
-                    <i class="bi bi-graph-up"></i>
-                    Relatórios
-                </a>
-            </li>
-
         </ul>
 
         <hr>
 
-        <a href="/" class="btn btn-outline-light w-100 mt-3">
+        <a href="/" class="btn btn-outline-light w-100">
             <i class="bi bi-box-arrow-left"></i>
             Sair
         </a>
 
     </nav>
 
-    <!-- Conteúdo -->
+    <!-- Conteúdo Principal -->
     <div class="flex-grow-1">
 
-        <!-- Navbar -->
+        <!-- Barra Superior -->
         <nav class="navbar navbar-light bg-white shadow-sm px-4">
 
-            <span class="navbar-brand mb-0 h4">
+            <h4 class="mb-0">
                 {% block titulo_pagina %}
                 Dashboard
                 {% endblock %}
-            </span>
+            </h4>
 
-            <span class="text-secondary">
-                <i class="bi bi-person-circle"></i>
-                Administrador
-            </span>
+            <div class="d-flex align-items-center">
+
+                <i class="bi bi-person-circle fs-4 me-2 text-success"></i>
+
+                <span class="fw-semibold">
+                    Administrador
+                </span>
+
+            </div>
 
         </nav>
 
+        <!-- Conteúdo das páginas -->
         <div class="container-fluid p-4">
 
             {% block conteudo %}
