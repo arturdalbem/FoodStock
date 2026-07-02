@@ -1,90 +1,198 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Produtos</title>
+{% block titulo %}
+Produtos
+{% endblock %}
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+{% block titulo_pagina %}
+Gerenciamento de Produtos
+{% endblock %}
 
-<body>
+{% block conteudo %}
 
-    <h1>Cadastro de Produtos</h1>
+<div class="card shadow border-0 mb-4">
 
-  <form method="POST">
+    <div class="card-header bg-success text-white">
+        <h4 class="mb-0">
+            <i class="bi bi-plus-circle-fill"></i>
+            Cadastrar Produto
+        </h4>
+    </div>
 
-    <label>Nome</label>
-    <br>
-    <input type="text" name="nome" required>
+    <div class="card-body">
 
-    <br><br>
+        <form method="POST">
 
-    <label>Categoria</label>
-    <br>
-    <input type="text" name="categoria" required>
+            <div class="row">
 
-    <br><br>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Nome</label>
+                    <input type="text" name="nome" class="form-control" required>
+                </div>
 
-    <label>Quantidade</label>
-    <br>
-    <input type="number" name="quantidade" required>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Categoria</label>
+                    <input type="text" name="categoria" class="form-control" required>
+                </div>
 
-    <br><br>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Quantidade</label>
+                    <input type="number" name="quantidade" class="form-control" required>
+                </div>
 
-    <label>Quantidade Mínima</label>
-    <br>
-    <input type="number" name="quantidade_minima" required>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Qtd. Mínima</label>
+                    <input type="number" name="quantidade_minima" class="form-control" required>
+                </div>
 
-    <br><br>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Unidade</label>
+                    <input type="text" name="unidade" class="form-control" required>
+                </div>
 
-    <label>Unidade</label>
-    <br>
-    <input type="text" name="unidade" required>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Validade</label>
+                    <input type="date" name="data_validade" class="form-control" required>
+                </div>
 
-    <br><br>
+            </div>
 
-    <label>Validade</label>
-    <br>
-    <input type="date" name="data_validade" required>
+            <button class="btn btn-success">
+                <i class="bi bi-save"></i>
+                Salvar Produto
+            </button>
 
-    <br><br>
+        </form>
 
-    <button type="submit">
-        Salvar Produto
-    </button>
+    </div>
 
-</form>
+</div>
 
-    <hr>
+<div class="card shadow border-0">
 
-    <h2>Produtos Cadastrados</h2>
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
 
-   <table border="1">
+        <h4 class="mb-0">
+            <i class="bi bi-box-seam-fill"></i>
+            Produtos Cadastrados
+        </h4>
 
-<tr>
-    <th>ID</th>
-    <th>Nome</th>
-    <th>Categoria</th>
-    <th>Quantidade</th>
-    <th>Qtd. Mínima</th>
-    <th>Unidade</th>
-    <th>Validade</th>
-</tr>
+        <input
+            type="text"
+            id="pesquisa"
+            class="form-control w-25"
+            placeholder="Pesquisar...">
 
-{% for produto in produtos %}
+    </div>
 
-<tr>
-    <td>{{ produto[0] }}</td>
-    <td>{{ produto[1] }}</td>
-    <td>{{ produto[2] }}</td>
-    <td>{{ produto[3] }}</td>
-    <td>{{ produto[4] }}</td>
-    <td>{{ produto[5] }}</td>
-    <td>{{ produto[6] }}</td>
-</tr>
+    <div class="card-body">
 
-{% endfor %}
+        <div class="table-responsive">
 
-</table>
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Categoria</th>
+                        <th>Quantidade</th>
+                        <th>Mínimo</th>
+                        <th>Unidade</th>
+                        <th>Validade</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for produto in produtos %}
+
+                    <tr>
+
+                        <td>{{ produto[0] }}</td>
+
+                        <td>{{ produto[1] }}</td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+                                {{ produto[2] }}
+                            </span>
+
+                        </td>
+
+                        <td>{{ produto[3] }}</td>
+
+                        <td>{{ produto[4] }}</td>
+
+                        <td>{{ produto[5] }}</td>
+
+                        <td>{{ produto[6] }}</td>
+
+                        <td>
+
+                            {% if produto[3] <= produto[4] %}
+
+                            <span class="badge bg-danger">
+
+                                <i class="bi bi-exclamation-circle-fill"></i>
+
+                                Estoque Baixo
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge bg-success">
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                OK
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const pesquisa = document.getElementById("pesquisa");
+
+pesquisa.addEventListener("keyup", function(){
+
+    let texto = this.value.toLowerCase();
+
+    let linhas = document.querySelectorAll("tbody tr");
+
+    linhas.forEach(function(linha){
+
+        linha.style.display =
+            linha.innerText.toLowerCase().includes(texto)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

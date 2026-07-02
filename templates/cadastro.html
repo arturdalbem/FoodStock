@@ -2,54 +2,187 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <title>Criar Conta - FoodStock</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Cadastro | FoodStock</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
 
-<body>
+<body class="bg-light">
 
-    <h1>Criar Conta</h1>
+<div class="container vh-100">
 
-    <form method="POST">
+    <div class="row justify-content-center align-items-center h-100">
 
-        <label>Nome Completo</label>
-        <br>
-        <input type="text" name="nome" required>
+        <div class="col-lg-6">
 
-        <br><br>
+            <div class="card shadow-lg border-0 rounded-4">
 
-        <label>Email</label>
-        <br>
-        <input type="email" name="email" required>
+                <div class="card-body p-5">
 
-        <br><br>
+                    <div class="text-center mb-4">
 
-        <label>Senha</label>
-        <br>
-        <input type="password" name="senha" required>
+                        <i class="bi bi-person-plus-fill text-success"
+                           style="font-size:65px;"></i>
 
-        <br><br>
+                        <h2 class="fw-bold mt-3">
+                            Criar Conta
+                        </h2>
 
-        <label>Confirmar Senha</label>
-        <br>
-        <input type="password" name="confirmar_senha" required>
+                        <p class="text-muted">
+                            Cadastre um novo usuário no FoodStock
+                        </p>
 
-        <br><br>
+                    </div>
 
-        <button type="submit">
-            Criar Conta
-        </button>
+                    <form method="POST">
 
-    </form>
+                        <div class="mb-3">
 
-    <br>
+                            <label class="form-label">
 
-    <a href="/">
-        Voltar para Login
-    </a>
+                                <i class="bi bi-person-fill"></i>
+
+                                Nome
+
+                            </label>
+
+                            <input
+                                type="text"
+                                name="nome"
+                                class="form-control"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                <i class="bi bi-envelope-fill"></i>
+
+                                Email
+
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control"
+                                required>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+
+                                        <i class="bi bi-lock-fill"></i>
+
+                                        Senha
+
+                                    </label>
+
+                                    <input
+                                        type="password"
+                                        name="senha"
+                                        class="form-control"
+                                        required>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+
+                                        <i class="bi bi-shield-lock-fill"></i>
+
+                                        Confirmar Senha
+
+                                    </label>
+
+                                    <input
+                                        type="password"
+                                        name="confirmar_senha"
+                                        class="form-control"
+                                        required>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="d-grid">
+
+                            <button
+                                class="btn btn-success btn-lg">
+
+                                <i class="bi bi-person-check-fill"></i>
+
+                                Criar Conta
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                    <hr>
+
+                    <div class="text-center">
+
+                        Já possui uma conta?
+
+                        <br><br>
+
+                        <a href="/"
+                           class="btn btn-outline-success">
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+
+                            Fazer Login
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="text-center mt-3 text-secondary">
+
+                © 2026 FoodStock
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
